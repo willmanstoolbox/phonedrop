@@ -1,44 +1,51 @@
-
 # PhoneDrop — Willman’s Toolbox
 Transfer files to your phone via QR. Free and open.
 
-**Website:** [https://www.willmanstoolbox.com/phonedrop/](https://www.willmanstoolbox.com/phonedrop/)  
-**Downloads page:** [https://www.willmanstoolbox.com/phonedrop/](https://www.willmanstoolbox.com/phonedrop/)  
-**Repo:** [https://github.com/willmanstoolbox/phonedrop](https://github.com/willmanstoolbox/phonedrop)  
-**Donate:** [https://www.willmanstoolbox.com/donate/](https://www.willmanstoolbox.com/donate/)
+## The Concept
+PhoneDrop is a desktop utility for file transfers between a computer and a mobile device over a local network. It creates a temporary web server and a QR code. The phone scans the code to download files directly. This process avoids cloud services and tracking.
 
-## What it is
-PhoneDrop is a small desktop utility that transfers files from your computer to a mobile device over a local network. It spawns a temporary local web server and generates a QR code for the phone to scan. Scanning the code allows you to download the files directly to your device without using cloud services, accounts, or external tracking.
+The application uses the Nuklear library for an extremely small footprint and fast startup. It handles sockets and GUI logic directly in C. All data remains on the local network so no internet access is required. It integrates with the system context menu on Windows and standard open with menus on Linux.
 
-## Key features
-* **Minimalist UI:** Built with Nuklear for an extremely small footprint and fast startup.
-* **Instant QR Transfer:** Generates a QR code for zero-config local peer-to-peer sharing.
-* **Shell Integration:** Native context menu support on Windows ("Send to phone") and "Open With" support on Linux.
-* **Drag-and-Drop:** Supports X11 drag-and-drop (Xdnd) for manual file selection.
-* **Privacy-First:** All data remains on your local network; no internet access required.
-* **Pure C Implementation:** No heavy frameworks; handles sockets and GUI logic directly.
 
-## Build from source
-
-### Linux
-Requires CMake ≥ 3.16 and X11 development libraries (e.g., `libx11-dev`).
-
-# Clone
-git clone [https://github.com/willmanstoolbox/phonedrop](https://github.com/willmanstoolbox/phonedrop)
-cd phonedrop
-
-# Configure + build
-cmake -S . -B build
-cmake --build build -j
-
-# Run
-./build/phonedrop
+## Building from Source
 
 ### Windows
-Requires CMake ≥ 3.16 and a C compiler (MSVC or MinGW). Links against Winsock2 and GDI32.
+Building on Windows requires CMake and a toolchain like MinGW. You should run these commands from a build directory inside the project folder.
 
-# Configure + build
-cmake -S . -B build
-cmake --build build --config Release
+```bash
+cmake .. -G MinGW\ Makefiles -DCMAKE_MAKE_PROGRAM=C:/path/to/mingw32-make.exe
+mingw32-make
+```
 
-# The executable will be in build/Release/phonedrop.exe
+### Linux
+Building on Linux requires X11 development libraries. Use the following sequence to compile the release binary.
+
+```bash
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
+
+---
+
+## Packaging
+The project uses CPack to generate installers and portable archives. After the build is finished you can create distribution packages in several formats. 
+
+### Debian Package
+This creates a .deb file for Ubuntu or Debian based systems.
+
+```bash
+cpack -G DEB
+```
+
+### Compressed Archive
+This creates a standard .tar.gz archive for portable use.
+
+```bash
+cpack -G TGZ
+```
+## Support & Contact
+If you find any bugs, have any ideas to improve this or just want to chat about C in general feel free to email me.
+
+**Email:** ticuette@gmail.com
+
+**More Tools:** You can support my work or check out other tools at [willmanstoolbox.com](https://willmanstoolbox.com)
